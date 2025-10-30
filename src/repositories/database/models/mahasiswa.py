@@ -1,10 +1,11 @@
-from typing import override
-from src.repositories.database.models.base import Base
-from src.application.domains.mahasiswa import Mahasiswa
-from sqlalchemy.orm import Mapped
-from sqlalchemy import String
-from sqlalchemy.orm import mapped_column
 from datetime import date
+from typing import override
+
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
+
+from src.application.domains.mahasiswa import Mahasiswa
+from src.repositories.database.core import Base
 
 
 class MahasiswaModel(Base):

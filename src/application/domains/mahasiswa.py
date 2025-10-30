@@ -1,6 +1,7 @@
-from datetime import date
-from src.application.domains.base_entity import BaseEntity
 from dataclasses import dataclass
+from datetime import date
+
+from src.application.domains.base_entity import BaseEntity
 
 
 @dataclass

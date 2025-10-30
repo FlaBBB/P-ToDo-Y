@@ -1,8 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
-
-
 from typing import Optional
+
 
 @dataclass
 class GetBasePort(ABC):

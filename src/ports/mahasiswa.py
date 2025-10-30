@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import date
 from typing import Optional
+
 from src.ports.get_base import GetBasePort
 
 

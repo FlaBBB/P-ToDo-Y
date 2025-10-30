@@ -1,17 +1,19 @@
-from typing import override, Optional
+from typing import Optional, override
+
+from sqlalchemy import and_, select
+from sqlalchemy.orm import Session
+
 from src.application.dtos.mahasiswa_dto import (
     CreateMahasiswaDto,
-    UpdateMahasiswaDto,
     MahasiswaDto,
+    UpdateMahasiswaDto,
 )
+from src.application.exceptions import NotFoundException
 from src.application.usecases.interfaces.mahasiswa_repository import (
     MahasiswaRepositoryInterface,
 )
 from src.ports.mahasiswa import GetMahasiswaPort
 from src.repositories.database.models.mahasiswa import MahasiswaModel
-from sqlalchemy.orm import Session
-from sqlalchemy import select, and_
-from src.application.exceptions import NotFoundException
 
 
 class MahasiswaRepository(MahasiswaRepositoryInterface):
@@ -53,9 +55,15 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
         if get_mahasiswa_port.kelas:
             filters.append(MahasiswaModel.kelas == get_mahasiswa_port.kelas)
         if get_mahasiswa_port.tempat_lahir:
-            filters.append(MahasiswaModel.tempat_lahir.ilike(f"%{get_mahasiswa_port.tempat_lahir}%"))
+            filters.append(
+                MahasiswaModel.tempat_lahir.ilike(
+                    f"%{get_mahasiswa_port.tempat_lahir}%"
+                )
+            )
         if get_mahasiswa_port.tanggal_lahir:
-            filters.append(MahasiswaModel.tanggal_lahir == get_mahasiswa_port.tanggal_lahir)
+            filters.append(
+                MahasiswaModel.tanggal_lahir == get_mahasiswa_port.tanggal_lahir
+            )
 
         if filters:
             stmt = stmt.where(and_(*filters))
@@ -63,7 +71,10 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
         if get_mahasiswa_port.order_by:
             order_column = getattr(MahasiswaModel, get_mahasiswa_port.order_by, None)
             if order_column:
-                if get_mahasiswa_port.order and get_mahasiswa_port.order.lower() == "desc":
+                if (
+                    get_mahasiswa_port.order
+                    and get_mahasiswa_port.order.lower() == "desc"
+                ):
                     stmt = stmt.order_by(order_column.desc())
                 else:
                     stmt = stmt.order_by(order_column.asc())
@@ -88,9 +99,13 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
 
     @override
     def update(self, mahasiswa_dto: UpdateMahasiswaDto) -> MahasiswaDto:
-        mahasiswa_model: Optional[MahasiswaModel] = self.session.get(MahasiswaModel, mahasiswa_dto.id)
+        mahasiswa_model: Optional[MahasiswaModel] = self.session.get(
+            MahasiswaModel, mahasiswa_dto.id
+        )
         if not mahasiswa_model:
-            raise NotFoundException(resource_name="Mahasiswa", identifier=mahasiswa_dto.id)
+            raise NotFoundException(
+                resource_name="Mahasiswa", identifier=mahasiswa_dto.id
+            )
 
         mahasiswa_model.nim = mahasiswa_dto.nim
         mahasiswa_model.nama = mahasiswa_dto.nama
@@ -112,7 +127,9 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
 
     @override
     def delete(self, mahasiswa_id: int) -> bool:
-        mahasiswa_model: Optional[MahasiswaModel] = self.session.get(MahasiswaModel, mahasiswa_id)
+        mahasiswa_model: Optional[MahasiswaModel] = self.session.get(
+            MahasiswaModel, mahasiswa_id
+        )
         if not mahasiswa_model:
             raise NotFoundException(resource_name="Mahasiswa", identifier=mahasiswa_id)
 

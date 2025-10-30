@@ -1,11 +1,13 @@
 from src.application.dtos.mahasiswa_dto import (
     CreateMahasiswaDto,
-    UpdateMahasiswaDto,
     MahasiswaDto,
+    UpdateMahasiswaDto,
 )
-from src.application.usecases.interfaces.mahasiswa_repository import MahasiswaRepositoryInterface
+from src.application.exceptions import DuplicateEntryException
+from src.application.usecases.interfaces.mahasiswa_repository import (
+    MahasiswaRepositoryInterface,
+)
 from src.ports.mahasiswa import GetMahasiswaPort
-from src.application.exceptions import DuplicateEntryException, NotFoundException
 
 
 class MahasiswaService:
@@ -13,9 +15,13 @@ class MahasiswaService:
         self.mahasiswa_repo: MahasiswaRepositoryInterface = mahasiswa_repo
 
     def create(self, mahasiswa: CreateMahasiswaDto) -> MahasiswaDto:
-        existing_mahasiswa = self.mahasiswa_repo.read(GetMahasiswaPort(nim=mahasiswa.nim))
+        existing_mahasiswa = self.mahasiswa_repo.read(
+            GetMahasiswaPort(nim=mahasiswa.nim)
+        )
         if existing_mahasiswa:
-            raise DuplicateEntryException(resource_name="Mahasiswa", field_name="NIM", field_value=mahasiswa.nim)
+            raise DuplicateEntryException(
+                resource_name="Mahasiswa", field_name="NIM", field_value=mahasiswa.nim
+            )
         return self.mahasiswa_repo.create(mahasiswa)
 
     def read(self, get_mahasiswa_port: GetMahasiswaPort) -> list[MahasiswaDto]:

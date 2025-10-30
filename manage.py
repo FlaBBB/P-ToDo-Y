@@ -1,18 +1,19 @@
 import argparse
 import os
-import sys
-from datetime import date, datetime
 import random
+import sys
+from datetime import datetime
+
 from faker import Faker
+from sqlalchemy.orm import Session
+
+from src.application.dtos.mahasiswa_dto import CreateMahasiswaDto
+from src.application.usecases.mahasiswa import MahasiswaService
+from src.ports.mahasiswa import GetMahasiswaPort
+from src.repositories.database.core import Base, engine, get_db_session
+from src.repositories.database.mahasiswa import MahasiswaRepository
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-from sqlalchemy.orm import Session
-from src.repositories.database.core import get_db_session, Base, engine
-from src.repositories.database.mahasiswa import MahasiswaRepository
-from src.application.usecases.mahasiswa import MahasiswaService
-from src.application.dtos.mahasiswa_dto import CreateMahasiswaDto
-from src.ports.mahasiswa import GetMahasiswaPort
 
 
 def seed_database():
@@ -77,7 +78,10 @@ def main():
     parser.add_argument(
         "command",
         choices=["seed"],
-        help="The command to run (e.g., 'seed' to populate the database with initial data).",
+        help=(
+            "The command to run (e.g., 'seed' to populate the database with "
+            "initial data)."
+        ),
     )
 
     args = parser.parse_args()
