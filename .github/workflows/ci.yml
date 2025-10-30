@@ -31,10 +31,6 @@ jobs:
       run: |
         echo "DB_URL=sqlite:///./test.db" > .env
 
-    - name: Run Linting (Flake8)
-      run: |
-        flake8 src/ tests/ manage.py
-
     - name: Run Code Formatter (Black) - Check only
       run: |
         black src/ tests/ manage.py --check
@@ -42,6 +38,10 @@ jobs:
     - name: Run Import Sorter (Isort) - Check only
       run: |
         isort src/ tests/ manage.py --check-only
+
+    - name: Run Linting (Flake8)
+      run: |
+        flake8 src/ tests/ manage.py
 
     - name: Run Static Type Checking (MyPy)
       run: |
