@@ -1,10 +1,9 @@
-from datetime import date
-
+from datetime import date, timedelta
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
 from src.repositories.database.models.mahasiswa import MahasiswaModel
+
 
 @pytest.fixture
 def setup_mahasiswa_data(db_session: Session):
@@ -48,6 +47,7 @@ def setup_mahasiswa_data(db_session: Session):
     db_session.refresh(mahasiswa4)
     return mahasiswa1, mahasiswa2, mahasiswa3, mahasiswa4
 
+
 def test_create_mahasiswa_success(client: TestClient, db_session: Session):
     """
     Test creating a new Mahasiswa record successfully.
@@ -57,7 +57,7 @@ def test_create_mahasiswa_success(client: TestClient, db_session: Session):
         "nama": "Eve Polastri",
         "kelas": "TI-3B",
         "tempat_lahir": "Semarang",
-        "tanggal_lahir": "2001-12-25"
+        "tanggal_lahir": "2001-12-25",
     }
 
     response = client.post("/mahasiswa/", json=new_mahasiswa)
@@ -72,11 +72,12 @@ def test_create_mahasiswa_success(client: TestClient, db_session: Session):
 
     # pastikan data tersimpan di DB
     from src.repositories.database.models.mahasiswa import MahasiswaModel
+
     mahasiswa_db = db_session.query(MahasiswaModel).filter_by(nim="2025000005").first()
     assert mahasiswa_db is not None
     assert mahasiswa_db.nama == "Eve Polastri"
-    
-    
+
+
 def test_create_mahasiswa_duplicate_nim(client: TestClient, setup_mahasiswa_data):
     """
     Test creating a Mahasiswa with an existing NIM should fail.
@@ -87,7 +88,7 @@ def test_create_mahasiswa_duplicate_nim(client: TestClient, setup_mahasiswa_data
         "nama": "Fake Duplicate",
         "kelas": "TI-2A",
         "tempat_lahir": "Denpasar",
-        "tanggal_lahir": "2000-05-05"
+        "tanggal_lahir": "2000-05-05",
     }
 
     response = client.post("/mahasiswa/", json=duplicate_data)
@@ -104,7 +105,7 @@ def test_create_mahasiswa_missing_fields(client: TestClient):
         # "nama" missing
         "kelas": "TI-2A",
         "tempat_lahir": "Surabaya",
-        "tanggal_lahir": "2000-10-10"
+        "tanggal_lahir": "2000-10-10",
     }
 
     response = client.post("/mahasiswa/", json=invalid_data)
@@ -120,14 +121,12 @@ def test_create_mahasiswa_invalid_date_format(client: TestClient):
         "nama": "Invalid Date",
         "kelas": "TI-3F",
         "tempat_lahir": "Jakarta",
-        "tanggal_lahir": "2000/12/31"  # invalid format
+        "tanggal_lahir": "2000/12/31",  # invalid format
     }
 
     response = client.post("/mahasiswa/", json=invalid_data)
     assert response.status_code == 422
 
-
-from datetime import date, timedelta
 
 def test_create_mahasiswa_future_date(client: TestClient):
     """
@@ -139,7 +138,7 @@ def test_create_mahasiswa_future_date(client: TestClient):
         "nama": "Time Traveler",
         "kelas": "TI-3G",
         "tempat_lahir": "Mars",
-        "tanggal_lahir": future_date
+        "tanggal_lahir": future_date,
     }
 
     response = client.post("/mahasiswa/", json=invalid_data)
