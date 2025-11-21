@@ -29,13 +29,17 @@ class DosenService:
         existing_dosen = self.dosen_repo.read(GetDosenPort(nidn=dosen_dto.nidn))
         if existing_dosen:
             raise DuplicateEntryException(
-                resource_name="Dosen", identifier=dosen_dto.nidn
+                resource_name="Dosen",
+                field_name="nidn",
+                field_value=dosen_dto.nidn,
             )
 
         existing_email = self.dosen_repo.read(GetDosenPort(email=dosen_dto.email))
         if existing_email:
             raise DuplicateEntryException(
-                resource_name="Dosen", identifier=dosen_dto.email
+                resource_name="Dosen",
+                field_name="email",
+                field_value=dosen_dto.email,
             )
 
         return self.dosen_repo.create(dosen_dto)
@@ -53,7 +57,9 @@ class DosenService:
             duplicate_check = self.dosen_repo.read(GetDosenPort(nidn=dosen_dto.nidn))
             if duplicate_check:
                 raise DuplicateEntryException(
-                    resource_name="Dosen", identifier=dosen_dto.nidn
+                    resource_name="Dosen",
+                    field_name="nidn",
+                    field_value=dosen_dto.nidn,
                 )
 
         # Check if email is being changed to one that already exists
@@ -63,7 +69,9 @@ class DosenService:
             )
             if duplicate_check_email:
                 raise DuplicateEntryException(
-                    resource_name="Dosen", identifier=dosen_dto.email
+                    resource_name="Dosen",
+                    field_name="email",
+                    field_value=dosen_dto.email,
                 )
 
         return self.dosen_repo.update(dosen_dto)

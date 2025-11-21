@@ -4,7 +4,7 @@ import random
 import sys
 from datetime import datetime
 
-from faker import Faker
+from faker import Faker  # type: ignore[import-not-found]
 from sqlalchemy.orm import Session
 
 from src.application.dtos.mahasiswa_dto import CreateMahasiswaDto
