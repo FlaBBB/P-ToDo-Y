@@ -1,6 +1,5 @@
 from datetime import date
 
-import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -123,7 +122,8 @@ def test_create_mahasiswa_missing_required_fields(
 
 def test_create_mahasiswa_with_extra_fields(client: TestClient, db_session: Session):
     """
-    Test creating a Mahasiswa with extra fields (should be ignored or rejected based on Pydantic config).
+    Test creating a Mahasiswa with extra fields.
+    Should be ignored or rejected based on Pydantic config.
     """
     payload = {
         "nim": "2024000006",
@@ -142,7 +142,8 @@ def test_create_mahasiswa_with_extra_fields(client: TestClient, db_session: Sess
 
 def test_create_mahasiswa_with_whitespace_trim(client: TestClient, db_session: Session):
     """
-    Test creating a Mahasiswa with whitespace in fields (should be trimmed if validation is implemented).
+    Test creating a Mahasiswa with whitespace in fields.
+    Should be trimmed if validation is implemented.
     """
     payload = {
         "nim": "  2024000007  ",
@@ -193,7 +194,8 @@ def test_create_multiple_mahasiswa(client: TestClient, db_session: Session):
 
 def test_create_mahasiswa_future_date(client: TestClient, db_session: Session):
     """
-    Test creating a Mahasiswa with a future birth date (should be rejected if validation exists).
+    Test creating a Mahasiswa with a future birth date.
+    Should be rejected if validation exists.
     """
     payload = {
         "nim": "2024000010",

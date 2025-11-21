@@ -25,8 +25,10 @@ class JadwalService:
         if jadwal_dto.jam_mulai >= jadwal_dto.jam_selesai:
             raise InvalidInputException("Jam mulai must be before jam selesai")
 
-        # TODO: Validate mata_kuliah_id and dosen_id existence (can be done via repo or separate service call)
-        # For now, we rely on foreign key constraints in the database to fail if they don't exist.
+        # TODO: Validate mata_kuliah_id and dosen_id existence
+        # (can be done via repo or separate service call)
+        # For now, we rely on foreign key constraints in the database
+        # to fail if they don't exist.
 
         return self.jadwal_repo.create(jadwal_dto)
 
