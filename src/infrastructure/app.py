@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 
-from src.infrastructure.routes import mahasiswa_router, mata_kuliah_router, dosen_router, jadwal_router, tugas_router
+from src.infrastructure.routes import (
+    mahasiswa_router,
+    mata_kuliah_router,
+    dosen_router,
+    jadwal_router,
+    tugas_router,
+)
 from src.repositories.database.core import Base, engine
 
 # Create all tables in the database

@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 
+
 class GetMataKuliahPort(BaseModel):
     id: Optional[int] = None
     kode_mk: Optional[str] = None

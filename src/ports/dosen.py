@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 
+
 class GetDosenPort(BaseModel):
     id: Optional[int] = None
     nidn: Optional[str] = None

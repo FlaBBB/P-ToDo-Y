@@ -2,6 +2,7 @@ from datetime import time
 from typing import Optional
 from pydantic import BaseModel
 
+
 class GetJadwalPort(BaseModel):
     id: Optional[int] = None
     hari: Optional[str] = None

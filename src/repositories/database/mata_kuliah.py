@@ -42,7 +42,9 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
         if get_mata_kuliah_port.kode_mk:
             filters.append(MataKuliahModel.kode_mk == get_mata_kuliah_port.kode_mk)
         if get_mata_kuliah_port.nama_mk:
-            filters.append(MataKuliahModel.nama_mk.ilike(f"%{get_mata_kuliah_port.nama_mk}%"))
+            filters.append(
+                MataKuliahModel.nama_mk.ilike(f"%{get_mata_kuliah_port.nama_mk}%")
+            )
         if get_mata_kuliah_port.sks:
             filters.append(MataKuliahModel.sks == get_mata_kuliah_port.sks)
 
@@ -63,7 +65,9 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
         if get_mata_kuliah_port.limit:
             stmt = stmt.limit(get_mata_kuliah_port.limit)
         if get_mata_kuliah_port.page and get_mata_kuliah_port.limit:
-            stmt = stmt.offset((get_mata_kuliah_port.page - 1) * get_mata_kuliah_port.limit)
+            stmt = stmt.offset(
+                (get_mata_kuliah_port.page - 1) * get_mata_kuliah_port.limit
+            )
 
         mata_kuliah_models = self.session.execute(stmt).scalars().all()
         return [m.to_entity() for m in mata_kuliah_models]
@@ -93,7 +97,9 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
             MataKuliahModel, mata_kuliah_id
         )
         if not mata_kuliah_model:
-            raise NotFoundException(resource_name="Mata Kuliah", identifier=mata_kuliah_id)
+            raise NotFoundException(
+                resource_name="Mata Kuliah", identifier=mata_kuliah_id
+            )
 
         self.session.delete(mata_kuliah_model)
         self.session.commit()

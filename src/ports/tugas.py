@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 from src.application.dtos.tugas_dto import StatusTugas
 
+
 class GetTugasPort(BaseModel):
     id: Optional[int] = None
     judul: Optional[str] = None

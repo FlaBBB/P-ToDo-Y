@@ -2,6 +2,7 @@ from datetime import time
 from typing import Optional
 from pydantic import BaseModel
 
+
 class CreateJadwalDto(BaseModel):
     hari: str
     jam_mulai: time
@@ -9,6 +10,7 @@ class CreateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+
 
 class UpdateJadwalDto(BaseModel):
     id: int
@@ -18,6 +20,7 @@ class UpdateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+
 
 class JadwalDto(BaseModel):
     id: int
