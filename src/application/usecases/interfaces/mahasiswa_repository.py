@@ -20,7 +20,3 @@ class MahasiswaRepositoryInterface(ABC):
     @abstractmethod
     def update(self, mahasiswa_dto: UpdateMahasiswaDto) -> MahasiswaDto:
         raise NotImplementedError("Subclasses must implement update method")
-
-    @abstractmethod
-    def delete(self, mahasiswa_id: int) -> bool:
-        raise NotImplementedError("Subclasses must implement delete method")

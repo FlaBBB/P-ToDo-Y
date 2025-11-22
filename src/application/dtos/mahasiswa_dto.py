@@ -1,5 +1,14 @@
 from dataclasses import dataclass
 from datetime import date
+from enum import Enum
+
+
+class MahasiswaStatus(str, Enum):
+    ACTIVE = "active"
+    DO = "do"
+    CUTI = "cuti"
+    LULUS = "lulus"
+    INACTIVE = "inactive"
 
 
 @dataclass
@@ -9,6 +18,7 @@ class CreateMahasiswaDto:
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus = MahasiswaStatus.ACTIVE
 
 
 @dataclass
@@ -19,6 +29,7 @@ class UpdateMahasiswaDto:
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus
 
 
 @dataclass
@@ -29,3 +40,4 @@ class MahasiswaDto:
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus

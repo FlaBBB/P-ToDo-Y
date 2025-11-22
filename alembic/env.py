@@ -12,6 +12,11 @@ sys.path.append(os.getcwd())
 # Import your Config and Base
 from src.config import Config
 from src.repositories.database.core import Base, engine
+from src.repositories.database.models.mahasiswa import MahasiswaModel
+from src.repositories.database.models.dosen import DosenModel
+from src.repositories.database.models.mata_kuliah import MataKuliahModel
+from src.repositories.database.models.jadwal import JadwalModel
+from src.repositories.database.models.tugas import TugasModel
 
 # Load configuration from your .env file
 config_app = Config()

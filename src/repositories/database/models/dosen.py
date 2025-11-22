@@ -1,9 +1,9 @@
 from typing import override
 
-from sqlalchemy import Integer, String
+from sqlalchemy import Enum, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.application.dtos.dosen_dto import DosenDto
+from src.application.dtos.dosen_dto import DosenDto, DosenStatus
 from src.repositories.database.core import Base
 
 
@@ -13,7 +13,11 @@ class DosenModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     nidn: Mapped[str] = mapped_column(String(20), unique=True, nullable=False)
     nama: Mapped[str] = mapped_column(String(100), nullable=False)
+    nama: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    status: Mapped[DosenStatus] = mapped_column(
+        Enum(DosenStatus), default=DosenStatus.ACTIVE
+    )
 
     @override
     def to_entity(self) -> DosenDto:
@@ -22,4 +26,5 @@ class DosenModel(Base):
             nidn=self.nidn,
             nama=self.nama,
             email=self.email,
+            status=self.status,
         )

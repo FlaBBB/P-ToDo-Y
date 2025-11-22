@@ -20,7 +20,3 @@ class DosenRepositoryInterface(ABC):
     @abstractmethod
     def update(self, dosen_dto: UpdateDosenDto) -> DosenDto:
         pass
-
-    @abstractmethod
-    def delete(self, dosen_id: int) -> bool:
-        pass

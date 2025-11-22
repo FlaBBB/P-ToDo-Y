@@ -20,7 +20,3 @@ class MataKuliahRepositoryInterface(ABC):
     @abstractmethod
     def update(self, mata_kuliah_dto: UpdateMataKuliahDto) -> MataKuliahDto:
         pass
-
-    @abstractmethod
-    def delete(self, mata_kuliah_id: int) -> bool:
-        pass

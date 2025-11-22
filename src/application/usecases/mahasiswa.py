@@ -29,6 +29,3 @@ class MahasiswaService:
 
     def update(self, mahasiswa: UpdateMahasiswaDto) -> MahasiswaDto:
         return self.mahasiswa_repo.update(mahasiswa)
-
-    def delete(self, mahasiswa_id: int) -> bool:
-        return self.mahasiswa_repo.delete(mahasiswa_id)

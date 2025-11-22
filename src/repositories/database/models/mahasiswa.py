@@ -1,10 +1,11 @@
 from datetime import date
 from typing import override
 
-from sqlalchemy import String
+from sqlalchemy import Enum, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.application.domains.mahasiswa import Mahasiswa
+from src.application.dtos.mahasiswa_dto import MahasiswaStatus
 from src.repositories.database.core import Base
 
 
@@ -16,7 +17,11 @@ class MahasiswaModel(Base):
     nama: Mapped[str] = mapped_column(String(100), nullable=False)
     kelas: Mapped[str] = mapped_column(String(10), nullable=False)
     tempat_lahir: Mapped[str] = mapped_column(String(100), nullable=False)
+    tempat_lahir: Mapped[str] = mapped_column(String(100), nullable=False)
     tanggal_lahir: Mapped[date] = mapped_column(nullable=False)
+    status: Mapped[MahasiswaStatus] = mapped_column(
+        Enum(MahasiswaStatus), default=MahasiswaStatus.ACTIVE
+    )
 
     @override
     def to_entity(self) -> Mahasiswa:
@@ -26,4 +31,5 @@ class MahasiswaModel(Base):
             kelas=self.kelas,
             tempat_lahir=self.tempat_lahir,
             tanggal_lahir=self.tanggal_lahir,
+            status=self.status,
         )

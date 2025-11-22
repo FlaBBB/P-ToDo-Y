@@ -59,11 +59,3 @@ class MataKuliahService:
                 )
 
         return self.mata_kuliah_repo.update(mata_kuliah_dto)
-
-    def delete(self, mata_kuliah_id: int) -> bool:
-        existing_mk = self.mata_kuliah_repo.read(GetMataKuliahPort(id=mata_kuliah_id))
-        if not existing_mk:
-            raise NotFoundException(
-                resource_name="Mata Kuliah", identifier=mata_kuliah_id
-            )
-        return self.mata_kuliah_repo.delete(mata_kuliah_id)

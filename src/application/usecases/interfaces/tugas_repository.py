@@ -20,7 +20,3 @@ class TugasRepositoryInterface(ABC):
     @abstractmethod
     def update(self, tugas_dto: UpdateTugasDto) -> TugasDto:
         pass
-
-    @abstractmethod
-    def delete(self, tugas_id: int) -> bool:
-        pass

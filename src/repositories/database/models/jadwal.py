@@ -1,10 +1,10 @@
 from datetime import time
 from typing import override
 
-from sqlalchemy import ForeignKey, Integer, String, Time
+from sqlalchemy import Enum, ForeignKey, Integer, String, Time
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.application.dtos.jadwal_dto import JadwalDto
+from src.application.dtos.jadwal_dto import JadwalDto, JadwalStatus
 from src.repositories.database.core import Base
 from src.repositories.database.models.dosen import DosenModel
 from src.repositories.database.models.mata_kuliah import MataKuliahModel
@@ -17,10 +17,18 @@ class JadwalModel(Base):
     hari: Mapped[str] = mapped_column(String(20), nullable=False)
     jam_mulai: Mapped[time] = mapped_column(Time, nullable=False)
     jam_selesai: Mapped[time] = mapped_column(Time, nullable=False)
+    jam_selesai: Mapped[time] = mapped_column(Time, nullable=False)
     ruangan: Mapped[str] = mapped_column(String(50), nullable=False)
-    
-    mata_kuliah_id: Mapped[int] = mapped_column(Integer, ForeignKey("mata_kuliah.id"), nullable=False)
-    dosen_id: Mapped[int] = mapped_column(Integer, ForeignKey("dosen.id"), nullable=False)
+    status: Mapped[JadwalStatus] = mapped_column(
+        Enum(JadwalStatus), default=JadwalStatus.SCHEDULED
+    )
+
+    mata_kuliah_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("mata_kuliah.id"), nullable=False
+    )
+    dosen_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("dosen.id"), nullable=False
+    )
 
     mata_kuliah: Mapped[MataKuliahModel] = relationship("MataKuliahModel")
     dosen: Mapped[DosenModel] = relationship("DosenModel")
@@ -35,4 +43,5 @@ class JadwalModel(Base):
             ruangan=self.ruangan,
             mata_kuliah_id=self.mata_kuliah_id,
             dosen_id=self.dosen_id,
+            status=self.status,
         )

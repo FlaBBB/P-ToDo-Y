@@ -61,10 +61,7 @@ class TugasRepository(TugasRepositoryInterface):
         if get_tugas_port.order_by:
             order_column = getattr(TugasModel, get_tugas_port.order_by, None)
             if order_column:
-                if (
-                    get_tugas_port.order
-                    and get_tugas_port.order.lower() == "desc"
-                ):
+                if get_tugas_port.order and get_tugas_port.order.lower() == "desc":
                     stmt = stmt.order_by(order_column.desc())
                 else:
                     stmt = stmt.order_by(order_column.asc())
@@ -79,13 +76,9 @@ class TugasRepository(TugasRepositoryInterface):
 
     @override
     def update(self, tugas_dto: UpdateTugasDto) -> TugasDto:
-        tugas_model: Optional[TugasModel] = self.session.get(
-            TugasModel, tugas_dto.id
-        )
+        tugas_model: Optional[TugasModel] = self.session.get(TugasModel, tugas_dto.id)
         if not tugas_model:
-            raise NotFoundException(
-                resource_name="Tugas", identifier=tugas_dto.id
-            )
+            raise NotFoundException(resource_name="Tugas", identifier=tugas_dto.id)
 
         tugas_model.judul = tugas_dto.judul
         tugas_model.deskripsi = tugas_dto.deskripsi
@@ -98,15 +91,3 @@ class TugasRepository(TugasRepositoryInterface):
         self.session.commit()
         self.session.refresh(tugas_model)
         return tugas_model.to_entity()
-
-    @override
-    def delete(self, tugas_id: int) -> bool:
-        tugas_model: Optional[TugasModel] = self.session.get(
-            TugasModel, tugas_id
-        )
-        if not tugas_model:
-            raise NotFoundException(resource_name="Tugas", identifier=tugas_id)
-
-        self.session.delete(tugas_model)
-        self.session.commit()
-        return True

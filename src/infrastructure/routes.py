@@ -147,40 +147,8 @@ def update_mahasiswa(
         )
 
 
-@mahasiswa_router.delete("/{mahasiswa_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_mahasiswa(
-    mahasiswa_id: int,
-    mahasiswa_service: MahasiswaService = Depends(get_mahasiswa_service),
-):
-    try:
-        success = mahasiswa_service.delete(mahasiswa_id)
-        if (
-            not success
-        ):  # This branch might not be hit if NotFoundException is always raised
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Mahasiswa with id {mahasiswa_id} not found",
-            )
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except (DatabaseException, RepositoryException):
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="A database error occurred.",
-        )
-    except ApplicationException as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.message
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
-
-
 # Mata Kuliah Routes
+
 
 @mata_kuliah_router.post(
     "/", response_model=MataKuliahDto, status_code=status.HTTP_201_CREATED
@@ -259,23 +227,6 @@ def update_mata_kuliah(
         )
 
 
-@mata_kuliah_router.delete("/{mata_kuliah_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_mata_kuliah(
-    mata_kuliah_id: int,
-    mata_kuliah_service: MataKuliahService = Depends(get_mata_kuliah_service),
-):
-    try:
-        mata_kuliah_service.delete(mata_kuliah_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
-
-
 # Dosen Routes
 
 from src.application.dtos.dosen_dto import (
@@ -290,9 +241,7 @@ from src.ports.dosen import GetDosenPort
 dosen_router = APIRouter()
 
 
-@dosen_router.post(
-    "/", response_model=DosenDto, status_code=status.HTTP_201_CREATED
-)
+@dosen_router.post("/", response_model=DosenDto, status_code=status.HTTP_201_CREATED)
 def create_dosen(
     dosen_dto: CreateDosenDto,
     dosen_service: DosenService = Depends(get_dosen_service),
@@ -367,23 +316,6 @@ def update_dosen(
         )
 
 
-@dosen_router.delete("/{dosen_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_dosen(
-    dosen_id: int,
-    dosen_service: DosenService = Depends(get_dosen_service),
-):
-    try:
-        dosen_service.delete(dosen_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
-
-
 # Jadwal Routes
 
 from src.application.dtos.jadwal_dto import (
@@ -398,9 +330,7 @@ from src.ports.jadwal import GetJadwalPort
 jadwal_router = APIRouter()
 
 
-@jadwal_router.post(
-    "/", response_model=JadwalDto, status_code=status.HTTP_201_CREATED
-)
+@jadwal_router.post("/", response_model=JadwalDto, status_code=status.HTTP_201_CREATED)
 def create_jadwal(
     jadwal_dto: CreateJadwalDto,
     jadwal_service: JadwalService = Depends(get_jadwal_service),
@@ -480,23 +410,6 @@ def update_jadwal(
         )
 
 
-@jadwal_router.delete("/{jadwal_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_jadwal(
-    jadwal_id: int,
-    jadwal_service: JadwalService = Depends(get_jadwal_service),
-):
-    try:
-        jadwal_service.delete(jadwal_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
-
-
 # Tugas Routes
 
 from src.application.dtos.tugas_dto import (
@@ -512,9 +425,7 @@ from src.ports.tugas import GetTugasPort
 tugas_router = APIRouter()
 
 
-@tugas_router.post(
-    "/", response_model=TugasDto, status_code=status.HTTP_201_CREATED
-)
+@tugas_router.post("/", response_model=TugasDto, status_code=status.HTTP_201_CREATED)
 def create_tugas(
     tugas_dto: CreateTugasDto,
     tugas_service: TugasService = Depends(get_tugas_service),
@@ -557,7 +468,7 @@ def read_tugas(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Invalid date format for deadline_from. Expected ISO format.",
             )
-    
+
     parsed_deadline_to: Optional[datetime] = None
     if deadline_to:
         try:
@@ -607,23 +518,6 @@ def update_tugas(
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=e.message
         )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
-
-
-@tugas_router.delete("/{tugas_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_tugas(
-    tugas_id: int,
-    tugas_service: TugasService = Depends(get_tugas_service),
-):
-    try:
-        tugas_service.delete(tugas_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

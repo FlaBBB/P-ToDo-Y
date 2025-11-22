@@ -1,6 +1,14 @@
 from datetime import time
-from typing import Optional
+from enum import Enum
+
 from pydantic import BaseModel
+
+
+class JadwalStatus(str, Enum):
+    SCHEDULED = "scheduled"
+    CANCELLED = "cancelled"
+    DONE = "done"
+
 
 class CreateJadwalDto(BaseModel):
     hari: str
@@ -9,6 +17,8 @@ class CreateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    status: JadwalStatus = JadwalStatus.SCHEDULED
+
 
 class UpdateJadwalDto(BaseModel):
     id: int
@@ -18,6 +28,8 @@ class UpdateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    status: JadwalStatus
+
 
 class JadwalDto(BaseModel):
     id: int
@@ -27,6 +39,7 @@ class JadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    status: JadwalStatus
 
     class Config:
         from_attributes = True

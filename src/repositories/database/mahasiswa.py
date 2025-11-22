@@ -28,6 +28,7 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
             kelas=mahasiswa_dto.kelas,
             tempat_lahir=mahasiswa_dto.tempat_lahir,
             tanggal_lahir=mahasiswa_dto.tanggal_lahir,
+            status=mahasiswa_dto.status,
         )
         self.session.add(mahasiswa_model)
         self.session.commit()
@@ -39,6 +40,7 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
             kelas=mahasiswa_model.kelas,
             tempat_lahir=mahasiswa_model.tempat_lahir,
             tanggal_lahir=mahasiswa_model.tanggal_lahir,
+            status=mahasiswa_model.status,
         )
 
     @override
@@ -93,6 +95,7 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
                 kelas=m.kelas,
                 tempat_lahir=m.tempat_lahir,
                 tanggal_lahir=m.tanggal_lahir,
+                status=m.status,
             )
             for m in mahasiswa_models
         ]
@@ -112,6 +115,7 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
         mahasiswa_model.kelas = mahasiswa_dto.kelas
         mahasiswa_model.tempat_lahir = mahasiswa_dto.tempat_lahir
         mahasiswa_model.tanggal_lahir = mahasiswa_dto.tanggal_lahir
+        mahasiswa_model.status = mahasiswa_dto.status
 
         self.session.add(mahasiswa_model)
         self.session.commit()
@@ -123,16 +127,5 @@ class MahasiswaRepository(MahasiswaRepositoryInterface):
             kelas=mahasiswa_model.kelas,
             tempat_lahir=mahasiswa_model.tempat_lahir,
             tanggal_lahir=mahasiswa_model.tanggal_lahir,
+            status=mahasiswa_model.status,
         )
-
-    @override
-    def delete(self, mahasiswa_id: int) -> bool:
-        mahasiswa_model: Optional[MahasiswaModel] = self.session.get(
-            MahasiswaModel, mahasiswa_id
-        )
-        if not mahasiswa_model:
-            raise NotFoundException(resource_name="Mahasiswa", identifier=mahasiswa_id)
-
-        self.session.delete(mahasiswa_model)
-        self.session.commit()
-        return True

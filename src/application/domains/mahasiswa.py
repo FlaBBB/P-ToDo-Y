@@ -10,4 +10,6 @@ class Mahasiswa(BaseEntity):
     nama: str
     kelas: str
     tempat_lahir: str
+    tempat_lahir: str
     tanggal_lahir: date
+    status: str

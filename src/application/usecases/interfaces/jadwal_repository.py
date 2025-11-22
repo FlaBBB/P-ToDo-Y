@@ -20,7 +20,3 @@ class JadwalRepositoryInterface(ABC):
     @abstractmethod
     def update(self, jadwal_dto: UpdateJadwalDto) -> JadwalDto:
         pass
-
-    @abstractmethod
-    def delete(self, jadwal_id: int) -> bool:
-        pass

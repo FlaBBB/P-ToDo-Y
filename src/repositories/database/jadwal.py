@@ -29,6 +29,7 @@ class JadwalRepository(JadwalRepositoryInterface):
             ruangan=jadwal_dto.ruangan,
             mata_kuliah_id=jadwal_dto.mata_kuliah_id,
             dosen_id=jadwal_dto.dosen_id,
+            status=jadwal_dto.status,
         )
         self.session.add(jadwal_model)
         self.session.commit()
@@ -57,10 +58,7 @@ class JadwalRepository(JadwalRepositoryInterface):
         if get_jadwal_port.order_by:
             order_column = getattr(JadwalModel, get_jadwal_port.order_by, None)
             if order_column:
-                if (
-                    get_jadwal_port.order
-                    and get_jadwal_port.order.lower() == "desc"
-                ):
+                if get_jadwal_port.order and get_jadwal_port.order.lower() == "desc":
                     stmt = stmt.order_by(order_column.desc())
                 else:
                     stmt = stmt.order_by(order_column.asc())
@@ -79,9 +77,7 @@ class JadwalRepository(JadwalRepositoryInterface):
             JadwalModel, jadwal_dto.id
         )
         if not jadwal_model:
-            raise NotFoundException(
-                resource_name="Jadwal", identifier=jadwal_dto.id
-            )
+            raise NotFoundException(resource_name="Jadwal", identifier=jadwal_dto.id)
 
         jadwal_model.hari = jadwal_dto.hari
         jadwal_model.jam_mulai = jadwal_dto.jam_mulai
@@ -89,20 +85,9 @@ class JadwalRepository(JadwalRepositoryInterface):
         jadwal_model.ruangan = jadwal_dto.ruangan
         jadwal_model.mata_kuliah_id = jadwal_dto.mata_kuliah_id
         jadwal_model.dosen_id = jadwal_dto.dosen_id
+        jadwal_model.status = jadwal_dto.status
 
         self.session.add(jadwal_model)
         self.session.commit()
         self.session.refresh(jadwal_model)
         return jadwal_model.to_entity()
-
-    @override
-    def delete(self, jadwal_id: int) -> bool:
-        jadwal_model: Optional[JadwalModel] = self.session.get(
-            JadwalModel, jadwal_id
-        )
-        if not jadwal_model:
-            raise NotFoundException(resource_name="Jadwal", identifier=jadwal_id)
-
-        self.session.delete(jadwal_model)
-        self.session.commit()
-        return True
