@@ -52,10 +52,7 @@ class DosenRepository(DosenRepositoryInterface):
         if get_dosen_port.order_by:
             order_column = getattr(DosenModel, get_dosen_port.order_by, None)
             if order_column:
-                if (
-                    get_dosen_port.order
-                    and get_dosen_port.order.lower() == "desc"
-                ):
+                if get_dosen_port.order and get_dosen_port.order.lower() == "desc":
                     stmt = stmt.order_by(order_column.desc())
                 else:
                     stmt = stmt.order_by(order_column.asc())
@@ -70,13 +67,9 @@ class DosenRepository(DosenRepositoryInterface):
 
     @override
     def update(self, dosen_dto: UpdateDosenDto) -> DosenDto:
-        dosen_model: Optional[DosenModel] = self.session.get(
-            DosenModel, dosen_dto.id
-        )
+        dosen_model: Optional[DosenModel] = self.session.get(DosenModel, dosen_dto.id)
         if not dosen_model:
-            raise NotFoundException(
-                resource_name="Dosen", identifier=dosen_dto.id
-            )
+            raise NotFoundException(resource_name="Dosen", identifier=dosen_dto.id)
 
         dosen_model.nidn = dosen_dto.nidn
         dosen_model.nama = dosen_dto.nama
@@ -89,9 +82,7 @@ class DosenRepository(DosenRepositoryInterface):
 
     @override
     def delete(self, dosen_id: int) -> bool:
-        dosen_model: Optional[DosenModel] = self.session.get(
-            DosenModel, dosen_id
-        )
+        dosen_model: Optional[DosenModel] = self.session.get(DosenModel, dosen_id)
         if not dosen_model:
             raise NotFoundException(resource_name="Dosen", identifier=dosen_id)
 

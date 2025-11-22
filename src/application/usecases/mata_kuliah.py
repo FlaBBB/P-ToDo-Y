@@ -31,7 +31,9 @@ class MataKuliahService:
         )
         if existing_mk:
             raise DuplicateEntryException(
-                resource_name="Mata Kuliah", identifier=mata_kuliah_dto.kode_mk
+                resource_name="Mata Kuliah",
+                field_name="kode_mk",
+                field_value=mata_kuliah_dto.kode_mk,
             )
 
         return self.mata_kuliah_repo.create(mata_kuliah_dto)
@@ -55,7 +57,9 @@ class MataKuliahService:
             )
             if duplicate_check:
                 raise DuplicateEntryException(
-                    resource_name="Mata Kuliah", identifier=mata_kuliah_dto.kode_mk
+                    resource_name="Mata Kuliah",
+                    field_name="kode_mk",
+                    field_value=mata_kuliah_dto.kode_mk,
                 )
 
         return self.mata_kuliah_repo.update(mata_kuliah_dto)

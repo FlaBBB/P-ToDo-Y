@@ -182,6 +182,7 @@ def delete_mahasiswa(
 
 # Mata Kuliah Routes
 
+
 @mata_kuliah_router.post(
     "/", response_model=MataKuliahDto, status_code=status.HTTP_201_CREATED
 )
@@ -290,9 +291,7 @@ from src.ports.dosen import GetDosenPort
 dosen_router = APIRouter()
 
 
-@dosen_router.post(
-    "/", response_model=DosenDto, status_code=status.HTTP_201_CREATED
-)
+@dosen_router.post("/", response_model=DosenDto, status_code=status.HTTP_201_CREATED)
 def create_dosen(
     dosen_dto: CreateDosenDto,
     dosen_service: DosenService = Depends(get_dosen_service),
@@ -398,9 +397,7 @@ from src.ports.jadwal import GetJadwalPort
 jadwal_router = APIRouter()
 
 
-@jadwal_router.post(
-    "/", response_model=JadwalDto, status_code=status.HTTP_201_CREATED
-)
+@jadwal_router.post("/", response_model=JadwalDto, status_code=status.HTTP_201_CREATED)
 def create_jadwal(
     jadwal_dto: CreateJadwalDto,
     jadwal_service: JadwalService = Depends(get_jadwal_service),
@@ -512,9 +509,7 @@ from src.ports.tugas import GetTugasPort
 tugas_router = APIRouter()
 
 
-@tugas_router.post(
-    "/", response_model=TugasDto, status_code=status.HTTP_201_CREATED
-)
+@tugas_router.post("/", response_model=TugasDto, status_code=status.HTTP_201_CREATED)
 def create_tugas(
     tugas_dto: CreateTugasDto,
     tugas_service: TugasService = Depends(get_tugas_service),
@@ -557,7 +552,7 @@ def read_tugas(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Invalid date format for deadline_from. Expected ISO format.",
             )
-    
+
     parsed_deadline_to: Optional[datetime] = None
     if deadline_to:
         try:

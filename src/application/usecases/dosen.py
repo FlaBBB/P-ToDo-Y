@@ -26,20 +26,20 @@ class DosenService:
         if not dosen_dto.email:
             raise InvalidInputException("Email cannot be empty")
 
-        existing_dosen = self.dosen_repo.read(
-            GetDosenPort(nidn=dosen_dto.nidn)
-        )
+        existing_dosen = self.dosen_repo.read(GetDosenPort(nidn=dosen_dto.nidn))
         if existing_dosen:
             raise DuplicateEntryException(
-                resource_name="Dosen", identifier=dosen_dto.nidn
+                resource_name="Dosen",
+                field_name="nidn",
+                field_value=dosen_dto.nidn,
             )
-        
-        existing_email = self.dosen_repo.read(
-            GetDosenPort(email=dosen_dto.email)
-        )
+
+        existing_email = self.dosen_repo.read(GetDosenPort(email=dosen_dto.email))
         if existing_email:
             raise DuplicateEntryException(
-                resource_name="Dosen", identifier=dosen_dto.email
+                resource_name="Dosen",
+                field_name="email",
+                field_value=dosen_dto.email,
             )
 
         return self.dosen_repo.create(dosen_dto)
@@ -48,24 +48,20 @@ class DosenService:
         return self.dosen_repo.read(get_dosen_port)
 
     def update(self, dosen_dto: UpdateDosenDto) -> DosenDto:
-        existing_dosen = self.dosen_repo.read(
-            GetDosenPort(id=dosen_dto.id)
-        )
+        existing_dosen = self.dosen_repo.read(GetDosenPort(id=dosen_dto.id))
         if not existing_dosen:
-            raise NotFoundException(
-                resource_name="Dosen", identifier=dosen_dto.id
-            )
+            raise NotFoundException(resource_name="Dosen", identifier=dosen_dto.id)
 
         # Check if nidn is being changed to one that already exists
         if dosen_dto.nidn != existing_dosen[0].nidn:
-            duplicate_check = self.dosen_repo.read(
-                GetDosenPort(nidn=dosen_dto.nidn)
-            )
+            duplicate_check = self.dosen_repo.read(GetDosenPort(nidn=dosen_dto.nidn))
             if duplicate_check:
                 raise DuplicateEntryException(
-                    resource_name="Dosen", identifier=dosen_dto.nidn
+                    resource_name="Dosen",
+                    field_name="nidn",
+                    field_value=dosen_dto.nidn,
                 )
-        
+
         # Check if email is being changed to one that already exists
         if dosen_dto.email != existing_dosen[0].email:
             duplicate_check_email = self.dosen_repo.read(
@@ -73,7 +69,9 @@ class DosenService:
             )
             if duplicate_check_email:
                 raise DuplicateEntryException(
-                    resource_name="Dosen", identifier=dosen_dto.email
+                    resource_name="Dosen",
+                    field_name="email",
+                    field_value=dosen_dto.email,
                 )
 
         return self.dosen_repo.update(dosen_dto)
@@ -81,7 +79,5 @@ class DosenService:
     def delete(self, dosen_id: int) -> bool:
         existing_dosen = self.dosen_repo.read(GetDosenPort(id=dosen_id))
         if not existing_dosen:
-            raise NotFoundException(
-                resource_name="Dosen", identifier=dosen_id
-            )
+            raise NotFoundException(resource_name="Dosen", identifier=dosen_id)
         return self.dosen_repo.delete(dosen_id)
