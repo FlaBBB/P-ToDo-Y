@@ -14,13 +14,13 @@ from src.ports.mahasiswa import GetMahasiswaPort
 
 @pytest.fixture
 def mock_mahasiswa_repo() -> MagicMock:
-    """Fixture untuk MahasiswaRepositoryInterface yang di-mock."""
+    """Fixture for a mocked MahasiswaRepositoryInterface."""
     return MagicMock(spec=MahasiswaRepositoryInterface)
 
 
 @pytest.fixture
 def mahasiswa_service(mock_mahasiswa_repo: MagicMock) -> MahasiswaService:
-    """Fixture untuk MahasiswaService dengan repository yang di-mock."""
+    """Fixture for MahasiswaService with a mocked repository."""
     return MahasiswaService(mahasiswa_repo=mock_mahasiswa_repo)
 
 
@@ -28,7 +28,7 @@ def test_create_mahasiswa_success(
     mahasiswa_service: MahasiswaService, mock_mahasiswa_repo: MagicMock
 ):
     """
-    Tes membuat Mahasiswa baru dengan sukses.
+    Test creating a new Mahasiswa successfully.
     """
     create_dto = CreateMahasiswaDto(
         nim="2024000001",
@@ -47,20 +47,20 @@ def test_create_mahasiswa_success(
         tanggal_lahir=date(2002, 5, 15),
     )
 
-    # Mock: NIM belum ada
+    # Mock: NIM doesn't exist yet
     mock_mahasiswa_repo.read.return_value = []
-    # Mock: Create mengembalikan mahasiswa baru
+    # Mock: Create returns the new mahasiswa
     mock_mahasiswa_repo.create.return_value = expected_result
 
     result = mahasiswa_service.create(create_dto)
 
-    # Verifikasi repository dipanggil untuk mengecek NIM yang sudah ada
+    # Verify repository was called to check for existing NIM
     mock_mahasiswa_repo.read.assert_called_once_with(
         GetMahasiswaPort(nim=create_dto.nim)
     )
-    # Verifikasi repository dipanggil untuk membuat data
+    # Verify repository was called to create
     mock_mahasiswa_repo.create.assert_called_once_with(create_dto)
-    # Verifikasi hasil
+    # Verify result
     assert result == expected_result
 
 
@@ -68,7 +68,7 @@ def test_create_mahasiswa_duplicate_nim(
     mahasiswa_service: MahasiswaService, mock_mahasiswa_repo: MagicMock
 ):
     """
-    Tes membuat Mahasiswa dengan NIM duplikat memunculkan DuplicateEntryException.
+    Test creating a Mahasiswa with a duplicate NIM raises DuplicateEntryException.
     """
     create_dto = CreateMahasiswaDto(
         nim="2024000001",
@@ -89,7 +89,7 @@ def test_create_mahasiswa_duplicate_nim(
         )
     ]
 
-    # Mock: NIM sudah ada
+    # Mock: NIM already exists
     mock_mahasiswa_repo.read.return_value = existing_mahasiswa
 
     with pytest.raises(DuplicateEntryException) as exc_info:
@@ -99,7 +99,7 @@ def test_create_mahasiswa_duplicate_nim(
     mock_mahasiswa_repo.read.assert_called_once_with(
         GetMahasiswaPort(nim=create_dto.nim)
     )
-    # Verifikasi create TIDAK dipanggil
+    # Verify create was NOT called
     mock_mahasiswa_repo.create.assert_not_called()
 
 
@@ -107,8 +107,8 @@ def test_create_mahasiswa_empty_nim_allowed(
     mahasiswa_service: MahasiswaService, mock_mahasiswa_repo: MagicMock
 ):
     """
-    Tes membuat Mahasiswa dengan NIM kosong diperbolehkan (tanpa validasi).
-    TODO: Tambahkan validasi untuk field kosong di service layer.
+    Test creating a Mahasiswa with empty NIM is allowed (no validation).
+    TODO: Add validation for empty fields in the service layer.
     """
     create_dto = CreateMahasiswaDto(
         nim="",
@@ -127,7 +127,7 @@ def test_create_mahasiswa_empty_nim_allowed(
         tanggal_lahir=date(2002, 5, 15),
     )
 
-    # Mock: Tidak ada mahasiswa yang sudah ada
+    # Mock: No existing mahasiswa
     mock_mahasiswa_repo.read.return_value = []
     mock_mahasiswa_repo.create.return_value = expected_result
 
@@ -141,7 +141,7 @@ def test_create_mahasiswa_repository_called_correctly(
     mahasiswa_service: MahasiswaService, mock_mahasiswa_repo: MagicMock
 ):
     """
-    Tes bahwa method repository dipanggil dengan parameter yang benar.
+    Test that the repository methods are called with correct parameters.
     """
     create_dto = CreateMahasiswaDto(
         nim="2024000002",
@@ -165,9 +165,9 @@ def test_create_mahasiswa_repository_called_correctly(
 
     result = mahasiswa_service.create(create_dto)
 
-    # Verifikasi read dipanggil pertama kali untuk mengecek duplikasi
+    # Verify read was called first to check for duplicates
     assert mock_mahasiswa_repo.read.call_count == 1
-    # Verifikasi create dipanggil dengan DTO
+    # Verify create was called with the DTO
     mock_mahasiswa_repo.create.assert_called_once_with(create_dto)
     assert result == expected_result
 
@@ -176,7 +176,7 @@ def test_create_mahasiswa_with_special_characters(
     mahasiswa_service: MahasiswaService, mock_mahasiswa_repo: MagicMock
 ):
     """
-    Tes membuat Mahasiswa dengan karakter spesial di nama.
+    Test creating a Mahasiswa with special characters in name.
     """
     create_dto = CreateMahasiswaDto(
         nim="2024000003",
