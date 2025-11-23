@@ -4,10 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from src.application.dtos.mahasiswa_dto import CreateMahasiswaDto, MahasiswaDto
-from src.application.exceptions import (
-    DuplicateEntryException,
-    InvalidInputException,
-)
+from src.application.exceptions import DuplicateEntryException
 from src.application.usecases.interfaces.mahasiswa_repository import (
     MahasiswaRepositoryInterface,
 )
