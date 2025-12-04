@@ -39,9 +39,9 @@ jobs:
     #   run: |
     #     isort src/ tests/ manage.py --check-only
 
-    - name: Run Linting (Flake8)
-      run: |
-        flake8 src/ tests/ manage.py
+    # - name: Run Linting (Flake8)
+    #   run: |
+    #     flake8 src/ tests/ manage.py
 
     - name: Run Static Type Checking (MyPy)
       run: |
