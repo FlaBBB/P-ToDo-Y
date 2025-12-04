@@ -1,6 +1,7 @@
 from datetime import time
-from typing import Optional
+
 from pydantic import BaseModel
+
 
 class CreateJadwalDto(BaseModel):
     hari: str
@@ -11,6 +12,7 @@ class CreateJadwalDto(BaseModel):
     dosen_id: int
     is_active: bool = True
 
+
 class UpdateJadwalDto(BaseModel):
     id: int
     hari: str
@@ -20,6 +22,7 @@ class UpdateJadwalDto(BaseModel):
     mata_kuliah_id: int
     dosen_id: int
     is_active: bool
+
 
 class JadwalDto(BaseModel):
     id: int

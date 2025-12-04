@@ -63,10 +63,7 @@ class JadwalRepository(JadwalRepositoryInterface):
         if get_jadwal_port.order_by:
             order_column = getattr(JadwalModel, get_jadwal_port.order_by, None)
             if order_column:
-                if (
-                    get_jadwal_port.order
-                    and get_jadwal_port.order.lower() == "desc"
-                ):
+                if get_jadwal_port.order and get_jadwal_port.order.lower() == "desc":
                     stmt = stmt.order_by(order_column.desc())
                 else:
                     stmt = stmt.order_by(order_column.asc())
@@ -85,9 +82,7 @@ class JadwalRepository(JadwalRepositoryInterface):
             JadwalModel, jadwal_dto.id
         )
         if not jadwal_model:
-            raise NotFoundException(
-                resource_name="Jadwal", identifier=jadwal_dto.id
-            )
+            raise NotFoundException(resource_name="Jadwal", identifier=jadwal_dto.id)
 
         jadwal_model.hari = jadwal_dto.hari
         jadwal_model.jam_mulai = jadwal_dto.jam_mulai
@@ -104,9 +99,7 @@ class JadwalRepository(JadwalRepositoryInterface):
 
     @override
     def delete(self, jadwal_id: int) -> bool:
-        jadwal_model: Optional[JadwalModel] = self.session.get(
-            JadwalModel, jadwal_id
-        )
+        jadwal_model: Optional[JadwalModel] = self.session.get(JadwalModel, jadwal_id)
         if not jadwal_model:
             raise NotFoundException(resource_name="Jadwal", identifier=jadwal_id)
 

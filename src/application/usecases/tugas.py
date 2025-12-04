@@ -20,7 +20,7 @@ class TugasService:
     def create(self, tugas_dto: CreateTugasDto) -> TugasDto:
         if not tugas_dto.judul:
             raise InvalidInputException("Judul cannot be empty")
-        
+
         # Basic validation, more complex logic can be added here
 
         return self.tugas_repo.create(tugas_dto)
@@ -29,20 +29,14 @@ class TugasService:
         return self.tugas_repo.read(get_tugas_port)
 
     def update(self, tugas_dto: UpdateTugasDto) -> TugasDto:
-        existing_tugas = self.tugas_repo.read(
-            GetTugasPort(id=tugas_dto.id)
-        )
+        existing_tugas = self.tugas_repo.read(GetTugasPort(id=tugas_dto.id))
         if not existing_tugas:
-            raise NotFoundException(
-                resource_name="Tugas", identifier=tugas_dto.id
-            )
+            raise NotFoundException(resource_name="Tugas", identifier=tugas_dto.id)
 
         return self.tugas_repo.update(tugas_dto)
 
     def delete(self, tugas_id: int) -> bool:
         existing_tugas = self.tugas_repo.read(GetTugasPort(id=tugas_id))
         if not existing_tugas:
-            raise NotFoundException(
-                resource_name="Tugas", identifier=tugas_id
-            )
+            raise NotFoundException(resource_name="Tugas", identifier=tugas_id)
         return self.tugas_repo.delete(tugas_id)

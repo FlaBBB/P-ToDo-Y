@@ -17,10 +17,16 @@ class TugasModel(Base):
     judul: Mapped[str] = mapped_column(String(200), nullable=False)
     deskripsi: Mapped[str] = mapped_column(Text, nullable=True)
     deadline: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    status: Mapped[StatusTugas] = mapped_column(Enum(StatusTugas), default=StatusTugas.PENDING)
-    
-    mata_kuliah_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("mata_kuliah.id"), nullable=True)
-    mahasiswa_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("mahasiswa.id"), nullable=True)
+    status: Mapped[StatusTugas] = mapped_column(
+        Enum(StatusTugas), default=StatusTugas.PENDING
+    )
+
+    mata_kuliah_id: Mapped[Optional[int]] = mapped_column(
+        Integer, ForeignKey("mata_kuliah.id"), nullable=True
+    )
+    mahasiswa_id: Mapped[Optional[int]] = mapped_column(
+        Integer, ForeignKey("mahasiswa.id"), nullable=True
+    )
 
     mata_kuliah: Mapped[Optional[MataKuliahModel]] = relationship("MataKuliahModel")
     mahasiswa: Mapped[Optional[MahasiswaModel]] = relationship("MahasiswaModel")
