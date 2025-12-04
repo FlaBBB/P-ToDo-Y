@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from src.application.dtos.mahasiswa_dto import CreateMahasiswaDto, MahasiswaDto
+from src.application.enums import MahasiswaStatus
 from src.application.exceptions import DuplicateEntryException
 from src.application.usecases.interfaces.mahasiswa_repository import (
     MahasiswaRepositoryInterface,
@@ -45,6 +46,7 @@ def test_create_mahasiswa_success(
         kelas="TI-3A",
         tempat_lahir="Jakarta",
         tanggal_lahir=date(2002, 5, 15),
+        status=MahasiswaStatus.ACTIVE,
     )
 
     # Mock: NIM doesn't exist yet
@@ -86,6 +88,7 @@ def test_create_mahasiswa_duplicate_nim(
             kelas="TI-3B",
             tempat_lahir="Bandung",
             tanggal_lahir=date(2001, 1, 1),
+            status=MahasiswaStatus.ACTIVE,
         )
     ]
 
@@ -125,6 +128,7 @@ def test_create_mahasiswa_empty_nim_allowed(
         kelas="TI-3A",
         tempat_lahir="Jakarta",
         tanggal_lahir=date(2002, 5, 15),
+        status=MahasiswaStatus.ACTIVE,
     )
 
     # Mock: No existing mahasiswa
@@ -158,6 +162,7 @@ def test_create_mahasiswa_repository_called_correctly(
         kelas="SIB-2B",
         tempat_lahir="Bandung",
         tanggal_lahir=date(2003, 8, 20),
+        status=MahasiswaStatus.ACTIVE,
     )
 
     mock_mahasiswa_repo.read.return_value = []
@@ -193,6 +198,7 @@ def test_create_mahasiswa_with_special_characters(
         kelas="TI-1C",
         tempat_lahir="New York",
         tanggal_lahir=date(2004, 3, 10),
+        status=MahasiswaStatus.ACTIVE,
     )
 
     mock_mahasiswa_repo.read.return_value = []
