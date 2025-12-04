@@ -1,31 +1,36 @@
-from dataclasses import dataclass
 from datetime import date
+from typing import Optional
+from pydantic import BaseModel
+from src.application.enums import MahasiswaStatus
 
 
-@dataclass
-class CreateMahasiswaDto:
+class CreateMahasiswaDto(BaseModel):
     nim: str
     nama: str
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus = MahasiswaStatus.ACTIVE
 
 
-@dataclass
-class UpdateMahasiswaDto:
+class UpdateMahasiswaDto(BaseModel):
     id: int
     nim: str
     nama: str
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus
 
 
-@dataclass
-class MahasiswaDto:
+class MahasiswaDto(BaseModel):
     id: int
     nim: str
     nama: str
     kelas: str
     tempat_lahir: str
     tanggal_lahir: date
+    status: MahasiswaStatus
+
+    class Config:
+        from_attributes = True

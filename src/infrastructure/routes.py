@@ -147,37 +147,7 @@ def update_mahasiswa(
         )
 
 
-@mahasiswa_router.delete("/{mahasiswa_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_mahasiswa(
-    mahasiswa_id: int,
-    mahasiswa_service: MahasiswaService = Depends(get_mahasiswa_service),
-):
-    try:
-        success = mahasiswa_service.delete(mahasiswa_id)
-        if (
-            not success
-        ):  # This branch might not be hit if NotFoundException is always raised
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Mahasiswa with id {mahasiswa_id} not found",
-            )
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except (DatabaseException, RepositoryException):
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="A database error occurred.",
-        )
-    except ApplicationException as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.message
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
+# DELETE endpoint removed
 
 
 # Mata Kuliah Routes
@@ -259,21 +229,7 @@ def update_mata_kuliah(
         )
 
 
-@mata_kuliah_router.delete("/{mata_kuliah_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_mata_kuliah(
-    mata_kuliah_id: int,
-    mata_kuliah_service: MataKuliahService = Depends(get_mata_kuliah_service),
-):
-    try:
-        mata_kuliah_service.delete(mata_kuliah_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
+# DELETE endpoint removed
 
 
 # Dosen Routes
@@ -367,21 +323,7 @@ def update_dosen(
         )
 
 
-@dosen_router.delete("/{dosen_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_dosen(
-    dosen_id: int,
-    dosen_service: DosenService = Depends(get_dosen_service),
-):
-    try:
-        dosen_service.delete(dosen_id)
-        return
-    except NotFoundException as e:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=e.message)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An unexpected error occurred: {str(e)}",
-        )
+# DELETE endpoint removed
 
 
 # Jadwal Routes

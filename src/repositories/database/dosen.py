@@ -26,6 +26,7 @@ class DosenRepository(DosenRepositoryInterface):
             nidn=dosen_dto.nidn,
             nama=dosen_dto.nama,
             email=dosen_dto.email,
+            status=dosen_dto.status,
         )
         self.session.add(dosen_model)
         self.session.commit()
@@ -81,6 +82,7 @@ class DosenRepository(DosenRepositoryInterface):
         dosen_model.nidn = dosen_dto.nidn
         dosen_model.nama = dosen_dto.nama
         dosen_model.email = dosen_dto.email
+        dosen_model.status = dosen_dto.status
 
         self.session.add(dosen_model)
         self.session.commit()
@@ -95,6 +97,8 @@ class DosenRepository(DosenRepositoryInterface):
         if not dosen_model:
             raise NotFoundException(resource_name="Dosen", identifier=dosen_id)
 
-        self.session.delete(dosen_model)
+        from src.application.enums import DosenStatus
+        dosen_model.status = DosenStatus.INACTIVE
+        self.session.add(dosen_model)
         self.session.commit()
         return True
