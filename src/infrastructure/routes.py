@@ -121,6 +121,7 @@ def update_mahasiswa(
         kelas=mahasiswa_dto.kelas,
         tempat_lahir=mahasiswa_dto.tempat_lahir,
         tanggal_lahir=mahasiswa_dto.tanggal_lahir,
+        status=mahasiswa_dto.status,
     )
     try:
         updated_mahasiswa = mahasiswa_service.update(update_data)
@@ -212,6 +213,7 @@ def update_mata_kuliah(
         kode_mk=mata_kuliah_dto.kode_mk,
         nama_mk=mata_kuliah_dto.nama_mk,
         sks=mata_kuliah_dto.sks,
+        is_active=mata_kuliah_dto.is_active,
     )
     try:
         return mata_kuliah_service.update(update_data)
@@ -304,6 +306,7 @@ def update_dosen(
         nidn=dosen_dto.nidn,
         nama=dosen_dto.nama,
         email=dosen_dto.email,
+        status=dosen_dto.status,
     )
     try:
         return dosen_service.update(update_data)
@@ -403,6 +406,7 @@ def update_jadwal(
         ruangan=jadwal_dto.ruangan,
         mata_kuliah_id=jadwal_dto.mata_kuliah_id,
         dosen_id=jadwal_dto.dosen_id,
+        is_active=jadwal_dto.is_active,
     )
     try:
         return jadwal_service.update(update_data)
