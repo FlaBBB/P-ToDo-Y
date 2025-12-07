@@ -1,4 +1,3 @@
-
 from typing import Optional, override
 
 from sqlalchemy import and_, select
