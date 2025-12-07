@@ -9,6 +9,7 @@ class StatusTugas(str, Enum):
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     DONE = "done"
+    CANCELLED = "cancelled"
 
 
 class CreateTugasDto(BaseModel):

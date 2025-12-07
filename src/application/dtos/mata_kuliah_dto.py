@@ -5,6 +5,7 @@ class CreateMataKuliahDto(BaseModel):
     kode_mk: str
     nama_mk: str
     sks: int
+    is_active: bool = True
 
 
 class UpdateMataKuliahDto(BaseModel):
@@ -12,6 +13,7 @@ class UpdateMataKuliahDto(BaseModel):
     kode_mk: str
     nama_mk: str
     sks: int
+    is_active: bool
 
 
 class MataKuliahDto(BaseModel):
@@ -19,6 +21,7 @@ class MataKuliahDto(BaseModel):
     kode_mk: str
     nama_mk: str
     sks: int
+    is_active: bool
 
     class Config:
         from_attributes = True
