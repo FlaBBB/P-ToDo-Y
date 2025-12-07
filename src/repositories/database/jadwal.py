@@ -41,6 +41,9 @@ class JadwalRepository(JadwalRepositoryInterface):
         stmt = select(JadwalModel)
 
         filters = []
+        # Always filter by is_active=True (soft delete)
+        filters.append(JadwalModel.is_active == True)  # noqa: E712
+
         if get_jadwal_port.id:
             filters.append(JadwalModel.id == get_jadwal_port.id)
         if get_jadwal_port.hari:
