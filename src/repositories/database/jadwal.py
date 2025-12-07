@@ -44,6 +44,10 @@ class JadwalRepository(JadwalRepositoryInterface):
             filters.append(JadwalModel.id == get_jadwal_port.id)
         if get_jadwal_port.hari:
             filters.append(JadwalModel.hari.ilike(f"%{get_jadwal_port.hari}%"))
+        if get_jadwal_port.jam_mulai:
+            filters.append(JadwalModel.jam_mulai == get_jadwal_port.jam_mulai)
+        if get_jadwal_port.jam_selesai:
+            filters.append(JadwalModel.jam_selesai == get_jadwal_port.jam_selesai)
         if get_jadwal_port.ruangan:
             filters.append(JadwalModel.ruangan.ilike(f"%{get_jadwal_port.ruangan}%"))
         if get_jadwal_port.mata_kuliah_id:

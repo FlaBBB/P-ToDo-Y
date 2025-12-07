@@ -73,21 +73,18 @@ def override_get_mahasiswa_service_fixture(db_session: Session) -> MahasiswaServ
 # 3. Create a TestClient Instance
 # ----------------------------------------------------------------------
 @pytest.fixture(name="client")
-def client_fixture(
-    override_get_db_session: Generator[Session, None, None],
-    override_get_mahasiswa_service: MahasiswaService,
-):
+def client_fixture(db_session: Session):
     """
     Provides a TestClient for making requests to the FastAPI application.
     It overrides the dependencies to ensure tests use the test database.
     """
-    # Override the dependencies in the main app
-    app.dependency_overrides[Base.metadata.create_all] = (
-        lambda: None
-    )  # Prevent actual table creation on app startup
-    app.dependency_overrides[get_mahasiswa_service_prod] = (
-        lambda: override_get_mahasiswa_service
-    )
+    from src.repositories.database.core import get_db_session
+
+    # Override the get_db_session dependency to use test database
+    def override_get_db():
+        yield db_session
+
+    app.dependency_overrides[get_db_session] = override_get_db
 
     with TestClient(app) as test_client:
         yield test_client
