@@ -1,3 +1,4 @@
+
 from typing import Optional, override
 
 from sqlalchemy import and_, select
@@ -29,6 +30,7 @@ class JadwalRepository(JadwalRepositoryInterface):
             ruangan=jadwal_dto.ruangan,
             mata_kuliah_id=jadwal_dto.mata_kuliah_id,
             dosen_id=jadwal_dto.dosen_id,
+            is_active=jadwal_dto.is_active,
         )
         self.session.add(jadwal_model)
         self.session.commit()
@@ -44,6 +46,10 @@ class JadwalRepository(JadwalRepositoryInterface):
             filters.append(JadwalModel.id == get_jadwal_port.id)
         if get_jadwal_port.hari:
             filters.append(JadwalModel.hari.ilike(f"%{get_jadwal_port.hari}%"))
+        if get_jadwal_port.jam_mulai:
+            filters.append(JadwalModel.jam_mulai >= get_jadwal_port.jam_mulai)
+        if get_jadwal_port.jam_selesai:
+            filters.append(JadwalModel.jam_selesai <= get_jadwal_port.jam_selesai)
         if get_jadwal_port.ruangan:
             filters.append(JadwalModel.ruangan.ilike(f"%{get_jadwal_port.ruangan}%"))
         if get_jadwal_port.mata_kuliah_id:
@@ -84,6 +90,7 @@ class JadwalRepository(JadwalRepositoryInterface):
         jadwal_model.ruangan = jadwal_dto.ruangan
         jadwal_model.mata_kuliah_id = jadwal_dto.mata_kuliah_id
         jadwal_model.dosen_id = jadwal_dto.dosen_id
+        jadwal_model.is_active = jadwal_dto.is_active
 
         self.session.add(jadwal_model)
         self.session.commit()
@@ -96,6 +103,7 @@ class JadwalRepository(JadwalRepositoryInterface):
         if not jadwal_model:
             raise NotFoundException(resource_name="Jadwal", identifier=jadwal_id)
 
-        self.session.delete(jadwal_model)
+        jadwal_model.is_active = False
+        self.session.add(jadwal_model)
         self.session.commit()
         return True

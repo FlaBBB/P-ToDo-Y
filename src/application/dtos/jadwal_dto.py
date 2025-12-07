@@ -10,6 +10,7 @@ class CreateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    is_active: bool = True
 
 
 class UpdateJadwalDto(BaseModel):
@@ -20,6 +21,7 @@ class UpdateJadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    is_active: bool
 
 
 class JadwalDto(BaseModel):
@@ -30,6 +32,7 @@ class JadwalDto(BaseModel):
     ruangan: str
     mata_kuliah_id: int
     dosen_id: int
+    is_active: bool
 
     class Config:
         from_attributes = True

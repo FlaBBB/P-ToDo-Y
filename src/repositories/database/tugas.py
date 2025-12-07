@@ -98,6 +98,8 @@ class TugasRepository(TugasRepositoryInterface):
         if not tugas_model:
             raise NotFoundException(resource_name="Tugas", identifier=tugas_id)
 
-        self.session.delete(tugas_model)
+        from src.application.dtos.tugas_dto import StatusTugas
+        tugas_model.status = StatusTugas.CANCELLED
+        self.session.add(tugas_model)
         self.session.commit()
         return True
