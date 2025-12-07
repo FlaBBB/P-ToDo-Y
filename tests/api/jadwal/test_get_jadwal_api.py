@@ -1,3 +1,4 @@
+import pytest
 from datetime import time
 
 from fastapi.testclient import TestClient
