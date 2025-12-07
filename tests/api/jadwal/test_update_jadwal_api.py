@@ -162,11 +162,14 @@ def test_update_jadwal_missing_required_fields(client: TestClient, db_session: S
 
 
 # NOTE: FK constraints not enforced in SQLite by default
-# def test_update_jadwal_invalid_mata_kuliah_id(client: TestClient, db_session: Session):
+# def test_update_jadwal_invalid_mata_kuliah_id(
+#     client: TestClient, db_session: Session
+# ):
 #     jadwal, dosen1, _, _, _ = setup_jadwal_for_update(db_session)
 #     payload = {
-#         "hari": "Senin", "jam_mulai": "08:00:00", "jam_selesai": "10:00:00",
-#         "ruangan": "E107", "mata_kuliah_id": 99999, "dosen_id": dosen1.id,
+#         "hari": "Senin", "jam_mulai": "08:00:00",
+#         "jam_selesai": "10:00:00", "ruangan": "E107",
+#         "mata_kuliah_id": 99999, "dosen_id": dosen1.id,
 #     }
 #     response = client.put(f"/jadwal/{jadwal.id}", json=payload)
 #     assert response.status_code in [400, 500]

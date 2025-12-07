@@ -10,7 +10,6 @@ from sqlalchemy.orm import Session, sessionmaker
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.application.usecases.mahasiswa import MahasiswaService
-from src.dependencies import get_mahasiswa_service as get_mahasiswa_service_prod
 from src.infrastructure.app import app
 from src.repositories.database.core import Base
 from src.repositories.database.mahasiswa import MahasiswaRepository

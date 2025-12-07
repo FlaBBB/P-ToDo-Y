@@ -1,10 +1,7 @@
-from datetime import time
-
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from src.repositories.database.models.dosen import DosenModel
-from src.repositories.database.models.jadwal import JadwalModel
 from src.repositories.database.models.mata_kuliah import MataKuliahModel
 
 
