@@ -1,3 +1,4 @@
+
 from typing import Optional, override
 
 from sqlalchemy import and_, select
@@ -26,6 +27,7 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
             kode_mk=mata_kuliah_dto.kode_mk,
             nama_mk=mata_kuliah_dto.nama_mk,
             sks=mata_kuliah_dto.sks,
+            is_active=mata_kuliah_dto.is_active,
         )
         self.session.add(mata_kuliah_model)
         self.session.commit()
@@ -33,17 +35,23 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
         return mata_kuliah_model.to_entity()
 
     @override
-    def read(self, get_mata_kuliah_port: GetMataKuliahPort) -> list[MataKuliahDto]:
+    def read(
+        self, get_mata_kuliah_port: GetMataKuliahPort
+    ) -> list[MataKuliahDto]:
         stmt = select(MataKuliahModel)
 
         filters = []
         if get_mata_kuliah_port.id:
             filters.append(MataKuliahModel.id == get_mata_kuliah_port.id)
         if get_mata_kuliah_port.kode_mk:
-            filters.append(MataKuliahModel.kode_mk == get_mata_kuliah_port.kode_mk)
+            filters.append(
+                MataKuliahModel.kode_mk == get_mata_kuliah_port.kode_mk
+            )
         if get_mata_kuliah_port.nama_mk:
             filters.append(
-                MataKuliahModel.nama_mk.ilike(f"%{get_mata_kuliah_port.nama_mk}%")
+                MataKuliahModel.nama_mk.ilike(
+                    f"%{get_mata_kuliah_port.nama_mk}%"
+                )
             )
         if get_mata_kuliah_port.sks:
             filters.append(MataKuliahModel.sks == get_mata_kuliah_port.sks)
@@ -52,7 +60,9 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
             stmt = stmt.where(and_(*filters))
 
         if get_mata_kuliah_port.order_by:
-            order_column = getattr(MataKuliahModel, get_mata_kuliah_port.order_by, None)
+            order_column = getattr(
+                MataKuliahModel, get_mata_kuliah_port.order_by, None
+            )
             if order_column:
                 if (
                     get_mata_kuliah_port.order
@@ -70,10 +80,12 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
             )
 
         mata_kuliah_models = self.session.execute(stmt).scalars().all()
-        return [m.to_entity() for m in mata_kuliah_models]
+        return [mk.to_entity() for mk in mata_kuliah_models]
 
     @override
-    def update(self, mata_kuliah_dto: UpdateMataKuliahDto) -> MataKuliahDto:
+    def update(
+        self, mata_kuliah_dto: UpdateMataKuliahDto
+    ) -> MataKuliahDto:
         mata_kuliah_model: Optional[MataKuliahModel] = self.session.get(
             MataKuliahModel, mata_kuliah_dto.id
         )
@@ -85,6 +97,7 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
         mata_kuliah_model.kode_mk = mata_kuliah_dto.kode_mk
         mata_kuliah_model.nama_mk = mata_kuliah_dto.nama_mk
         mata_kuliah_model.sks = mata_kuliah_dto.sks
+        mata_kuliah_model.is_active = mata_kuliah_dto.is_active
 
         self.session.add(mata_kuliah_model)
         self.session.commit()
@@ -101,6 +114,7 @@ class MataKuliahRepository(MataKuliahRepositoryInterface):
                 resource_name="Mata Kuliah", identifier=mata_kuliah_id
             )
 
-        self.session.delete(mata_kuliah_model)
+        mata_kuliah_model.is_active = False
+        self.session.add(mata_kuliah_model)
         self.session.commit()
         return True

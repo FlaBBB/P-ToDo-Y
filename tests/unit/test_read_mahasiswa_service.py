@@ -4,6 +4,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from src.application.dtos.mahasiswa_dto import MahasiswaDto
+from src.application.enums import MahasiswaStatus
 from src.application.usecases.interfaces.mahasiswa_repository import (
     MahasiswaRepositoryInterface,
 )
@@ -37,6 +38,7 @@ def test_read_all_mahasiswa(
             kelas="TI-3E",
             tempat_lahir="City 1",
             tanggal_lahir=date(2000, 1, 1),
+            status=MahasiswaStatus.ACTIVE,
         ),
         MahasiswaDto(
             id=2,
@@ -45,6 +47,7 @@ def test_read_all_mahasiswa(
             kelas="SIB-5F",
             tempat_lahir="City 2",
             tanggal_lahir=date(2001, 2, 2),
+            status=MahasiswaStatus.ACTIVE,
         ),
     ]
     mock_mahasiswa_repo.read.return_value = expected_mahasiswa_dtos
@@ -70,6 +73,7 @@ def test_read_mahasiswa_by_nim(
             kelas="TI-3E",
             tempat_lahir="City 1",
             tanggal_lahir=date(2000, 1, 1),
+            status=MahasiswaStatus.ACTIVE,
         ),
     ]
     mock_mahasiswa_repo.read.return_value = expected_mahasiswa_dto
@@ -110,6 +114,7 @@ def test_read_mahasiswa_with_pagination(
             kelas="TI-3E",
             tempat_lahir="City 1",
             tanggal_lahir=date(2000, 1, 1),
+            status=MahasiswaStatus.ACTIVE,
         ),
     ]
     mock_mahasiswa_repo.read.return_value = expected_mahasiswa_dtos
@@ -135,6 +140,7 @@ def test_read_mahasiswa_with_ordering(
             kelas="SIB-5F",
             tempat_lahir="City 2",
             tanggal_lahir=date(2001, 2, 2),
+            status=MahasiswaStatus.ACTIVE,
         ),
         MahasiswaDto(
             id=1,
@@ -143,6 +149,7 @@ def test_read_mahasiswa_with_ordering(
             kelas="TI-3E",
             tempat_lahir="City 1",
             tanggal_lahir=date(2000, 1, 1),
+            status=MahasiswaStatus.ACTIVE,
         ),
     ]
     mock_mahasiswa_repo.read.return_value = expected_mahasiswa_dtos
