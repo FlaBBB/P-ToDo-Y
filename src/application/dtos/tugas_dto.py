@@ -5,11 +5,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class StatusTugas(str, Enum):
-    PENDING = "pending"
-    IN_PROGRESS = "in_progress"
-    DONE = "done"
-    CANCELLED = "cancelled"
+from src.application.enums import StatusTugas
 
 
 class CreateTugasDto(BaseModel):
