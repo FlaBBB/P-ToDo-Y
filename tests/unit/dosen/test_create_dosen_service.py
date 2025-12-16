@@ -1,5 +1,6 @@
 from unittest.mock import MagicMock
 
+import pytest
 
 from src.application.dtos.dosen_dto import CreateDosenDto, DosenDto
 from src.application.enums import DosenStatus
