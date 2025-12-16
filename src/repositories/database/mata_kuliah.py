@@ -1,6 +1,5 @@
 
-from typing import Optional
-from typing_extensions import override
+from typing import Optional, override
 
 from sqlalchemy import and_, select
 from sqlalchemy.orm import Session

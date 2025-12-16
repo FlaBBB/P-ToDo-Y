@@ -10,11 +10,9 @@ from sqlalchemy.orm import Session, sessionmaker
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.application.usecases.mahasiswa import MahasiswaService
-from src.application.usecases.dosen import DosenService
 from src.infrastructure.app import app
 from src.repositories.database.core import Base
 from src.repositories.database.mahasiswa import MahasiswaRepository
-from src.repositories.database.dosen import DosenRepository
 
 # ----------------------------------------------------------------------
 # 1. Setup In-Memory SQLite Database for Testing
@@ -67,17 +65,6 @@ def override_get_mahasiswa_service_fixture(db_session: Session) -> MahasiswaServ
     """
     repository = MahasiswaRepository(session_db=db_session)
     service = MahasiswaService(mahasiswa_repo=repository)
-    return service
-
-
-@pytest.fixture(name="override_get_dosen_service")
-def override_get_dosen_service_fixture(db_session: Session) -> DosenService:
-    """
-    Overrides the get_dosen_service dependency to use the test repository
-    with the test database session.
-    """
-    repository = DosenRepository(session_db=db_session)
-    service = DosenService(dosen_repo=repository)
     return service
 
 

@@ -1,6 +1,5 @@
 from datetime import time
-from typing import Optional
-from typing_extensions import override
+from typing import Optional, override
 
 from sqlalchemy import ForeignKey, Integer, String, Time, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship

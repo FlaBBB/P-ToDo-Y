@@ -1,4 +1,4 @@
-from typing_extensions import override
+from typing import override
 
 from sqlalchemy import Integer, String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column

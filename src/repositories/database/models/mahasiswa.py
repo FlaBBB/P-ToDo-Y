@@ -1,5 +1,5 @@
 from datetime import date
-from typing_extensions import override
+from typing import override
 
 from sqlalchemy import Date, Integer, String, Enum
 from sqlalchemy.orm import Mapped, mapped_column
