@@ -1,7 +1,11 @@
 from datetime import date, datetime
+import warnings
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
+
+# Suppress Pydantic deprecation warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="pydantic")
 
 from src.repositories.database.models.mahasiswa import MahasiswaModel
 from src.repositories.database.models.mata_kuliah import MataKuliahModel

@@ -1,7 +1,11 @@
 from datetime import date, datetime
+import warnings
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
+
+# Suppress Pydantic deprecation warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="pydantic")
 
 from src.repositories.database.models.mahasiswa import MahasiswaModel
 from src.repositories.database.models.mata_kuliah import MataKuliahModel
@@ -110,7 +114,7 @@ def test_get_tugas_by_status(client: TestClient, db_session: Session):
     db_session.add_all([tugas1, tugas2, tugas3])
     db_session.commit()
 
-    response = client.get("/tugas/?status=pending")
+    response = client.get("/tugas/?status_tugas=pending")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2
@@ -258,7 +262,7 @@ def test_get_tugas_multiple_filters(client: TestClient, db_session: Session):
     db_session.add_all([tugas1, tugas2, tugas3])
     db_session.commit()
 
-    response = client.get(f"/tugas/?mata_kuliah_id={mk.id}&status=pending")
+    response = client.get(f"/tugas/?mata_kuliah_id={mk.id}&status_tugas=pending")
     assert response.status_code == 200
     data = response.json()
     assert len(data) == 2

@@ -1,7 +1,11 @@
 from datetime import datetime
 from unittest.mock import MagicMock
+import warnings
 
 import pytest
+
+# Suppress Pydantic deprecation warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="pydantic")
 
 from src.application.dtos.tugas_dto import CreateTugasDto, StatusTugas, TugasDto
 from src.application.exceptions import InvalidInputException
