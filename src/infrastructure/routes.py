@@ -478,7 +478,7 @@ def create_tugas(
 def read_tugas(
     id: Optional[int] = None,
     judul: Optional[str] = None,
-    status: Optional[StatusTugas] = None,
+    status_tugas: Optional[StatusTugas] = None,
     mata_kuliah_id: Optional[int] = None,
     mahasiswa_id: Optional[int] = None,
     deadline_from: Optional[str] = None,
@@ -512,7 +512,7 @@ def read_tugas(
     get_tugas_port = GetTugasPort(
         id=id,
         judul=judul,
-        status=status,
+        status=status_tugas,
         mata_kuliah_id=mata_kuliah_id,
         mahasiswa_id=mahasiswa_id,
         deadline_from=parsed_deadline_from,
