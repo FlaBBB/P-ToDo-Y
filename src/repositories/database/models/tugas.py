@@ -5,7 +5,8 @@ from typing_extensions import override
 from sqlalchemy import DateTime, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.application.dtos.tugas_dto import StatusTugas, TugasDto
+from src.application.dtos.tugas_dto import TugasDto
+from src.application.enums import StatusTugas
 from src.repositories.database.core import Base
 from src.repositories.database.models.mahasiswa import MahasiswaModel
 from src.repositories.database.models.mata_kuliah import MataKuliahModel
