@@ -1,4 +1,4 @@
-from typing import override
+from typing_extensions import override
 
 from sqlalchemy import Integer, String, Enum
 from sqlalchemy.orm import Mapped, mapped_column
